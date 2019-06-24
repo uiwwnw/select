@@ -8,14 +8,28 @@
     <title>Document</title>
 </head>
 <body>
-    <div id="a" data-value="2">
-        <span class="selected"></span>
-        <ul class="option-list">
-            <li class="option-list__item" data-value="1" data-label="a"></li>
-            <li class="option-list__item" data-value="2" data-label="b"></li>
-            <li class="option-list__item" data-value="3" data-label="c"></li>
-            <li class="option-list__item" data-value="4" data-label="d"></li>
+    <div id="label" data-value="1">
+        <div class="selectedList">
+            <span class="selectedLabel"></span>
+        </div>
+        <ul class="optionList">
+            <li class="optionListItem" data-value="1" data-label="a">a</li>
+            <li class="optionListItem" data-value="2" data-label="b">b</li>
+            <li class="optionListItem" data-value="3" data-label="c">c</li>
+            <li class="optionListItem" data-value="4" data-label="d">d</li>
         </ul>
     </div>
+    <div id="labelDesc" data-value="2">
+            <div class="selectedList">
+                <span class="selectedLabel"></span>
+                <span class="selectedDesc"></span>
+            </div>
+            <ul class="optionList">
+                <li class="optionListItem" data-value="1" data-label="a" data-desc="가나다라">a <span>가나다라</span></li>
+                <li class="optionListItem" data-value="2" data-label="b" data-desc="마바사아">b <span>마바사아</span></li>
+                <li class="optionListItem" data-value="3" data-label="c" data-desc="뮻ㅇ">c <span>뮻ㅇ</span></li>
+                <li class="optionListItem" data-value="4" data-label="d" data-desc="우히우히히">d <span>우히우히히</span></li>
+            </ul>
+        </div>
 </body>
 </html>
