@@ -25,39 +25,39 @@ var Select = (function (Select) {
         function selector(id, selector) {
             return document.querySelectorAll(`#${id} ${selector}`);
         }
-        function exceptNull(_this, key) {
-            return _this.opt[key] ? `.${_this.opt[key]}` : `.${key}`;
+        function exceptNull(key) {
+            return this.opt[key] ? `.${this.opt[key]}` : `.${key}`;
         }
-        function findIdx(_this, value) {
-            var i = _this.options.length,
+        function findIdx(value) {
+            var i = this.options.length,
                 index = 0;
             while (i--) {
-                if (_this.options[i].value === value) {
+                if (this.options[i].value === value) {
                     index = i;
                     break;
                 }
             }
             return index;
         }
-        function open(_this) {
-            _this.active = true;
-            _this.elementSelect.classList.add(this.activeClass);
-            _this.elementOptionList.style.display = 'block';
-            _this.elementOptionList.style.zIndex = '2';
-            _this.elementOptionList.style.position = 'relative';
-            _this.elementDim.style.display = 'block';
+        function open() {
+            this.active = true;
+            this.elementSelect.classList.add(this.activeClass);
+            this.elementOptionList.style.display = 'block';
+            this.elementOptionList.style.zIndex = '2';
+            this.elementOptionList.style.position = 'relative';
+            this.elementDim.style.display = 'block';
         }
-        function select(_this, index) {
-            _this.index = index;
-            _this.value = _this.options[index].value;
+        function select(index) {
+            this.index = index;
+            this.value = this.options[index].value;
 
-            if (!!_this.opt.visibleLabel) utils.innerText(_this.elementSelectedLabel, _this.options[index].label);
-            if (!!_this.opt.visibleValue) utils.innerText(_this.elementSelectedValue, _this.options[index].value);
-            if (!!_this.opt.visibleDesc) utils.innerText(_this.elementSelectedDesc, _this.options[index].desc);
-            if (!!_this.opt.visibleImage) utils.setAttribute(_this.elementSelectedImage, 'src', _this.options[index].image);
+            if (!!this.opt.visibleLabel) utils.innerText(this.elementSelectedLabel, this.options[index].label);
+            if (!!this.opt.visibleValue) utils.innerText(this.elementSelectedValue, this.options[index].value);
+            if (!!this.opt.visibleDesc) utils.innerText(this.elementSelectedDesc, this.options[index].desc);
+            if (!!this.opt.visibleImage) utils.setAttribute(this.elementSelectedImage, 'src', this.options[index].image);
 
-            utils.close(_this);
-            _this.change();
+            utils.close.call(this);
+            this.change();
         }
 
         function innerText(el, text) {
@@ -66,13 +66,13 @@ var Select = (function (Select) {
         function setAttribute(el, type, src) {
             el.setAttribute(type, src);
         }
-        function close(_this) {
-            _this.active = false;
-            _this.elementSelect.classList.remove(this.activeClass);
-            _this.elementOptionList.style.display = 'none';
-            _this.elementDim.style.display = 'none';
-            _this.elementOptionList.style.zIndex = null;
-            _this.elementOptionList.style.position = null
+        function close() {
+            this.active = false;
+            this.elementSelect.classList.remove(this.activeClass);
+            this.elementOptionList.style.display = 'none';
+            this.elementDim.style.display = 'none';
+            this.elementOptionList.style.zIndex = null;
+            this.elementOptionList.style.position = null
         }
         function makeDom(selector, tag, style) {
             var element = document.createElement(tag);
@@ -81,19 +81,19 @@ var Select = (function (Select) {
             return element;
         }
 
-        function addEvent(_this, selector, fn) {
-            var i = selector.length;
+        function addEvent(selector, fn) {
+            var _this = this,i = selector.length;
             if (i > 1) {
                 while (i--) {
-                    function _fn(el) {
-                        var index = utils.findIdx(_this, el.target.dataset.value);
-                        fn(_this, index);
+                    function _fn() {
+                        var index = utils.findIdx.call(_this, this.dataset.value);
+                        fn(index);
                     }
                     selector[i].addEventListener('click', _fn, false);
                 }
             } else {
                 function _fn() {
-                    fn(_this, fn);
+                    fn(fn);
                 }
                 selector.addEventListener('click', _fn, false);
             }
@@ -142,19 +142,19 @@ var Select = (function (Select) {
         this.active = false;
         this.id = id;
         this.elementSelect = document.getElementById(id);
-        this.elementSelectedList = utils.selector(this.id, utils.exceptNull(this, this.opt.selectedList))[0];
+        this.elementSelectedList = utils.selector(this.id, utils.exceptNull.call(this, this.opt.selectedList))[0];
 
-        (this.opt.visibleLabel) && (this.elementSelectedLabel = utils.selector(this.id, utils.exceptNull(this, this.opt.selectedLabel))[0]);
-        (this.opt.visibleValue) && (this.elementSelectedValue = utils.selector(this.id, utils.exceptNull(this, this.opt.selectedValue))[0]);
-        (this.opt.visibleImage) && (this.elementSelectedImage = utils.selector(this.id, utils.exceptNull(this, this.opt.selectedImage))[0]);
-        (this.opt.visibleDesc) && (this.elementSelectedDesc = utils.selector(this.id, utils.exceptNull(this, this.opt.selectedDesc))[0]);
-        this.elementOptionList = utils.selector(this.id, utils.exceptNull(this, this.opt.optionList))[0];
-        this.elementOptionListItems = utils.selector(this.id, utils.exceptNull(this, this.opt.optionListItem));
+        (this.opt.visibleLabel) && (this.elementSelectedLabel = utils.selector(this.id, utils.exceptNull.call(this, this.opt.selectedLabel))[0]);
+        (this.opt.visibleValue) && (this.elementSelectedValue = utils.selector(this.id, utils.exceptNull.call(this, this.opt.selectedValue))[0]);
+        (this.opt.visibleImage) && (this.elementSelectedImage = utils.selector(this.id, utils.exceptNull.call(this, this.opt.selectedImage))[0]);
+        (this.opt.visibleDesc) && (this.elementSelectedDesc = utils.selector(this.id, utils.exceptNull.call(this, this.opt.selectedDesc))[0]);
+        this.elementOptionList = utils.selector(this.id, utils.exceptNull.call(this, this.opt.optionList))[0];
+        this.elementOptionListItems = utils.selector(this.id, utils.exceptNull.call(this, this.opt.optionListItem));
         this.elementDim = utils.makeDom(this.elementSelect, 'i', 'z-index: 1;position: fixed;top: 0;left: 0;display:none;width: 100%;height: 100%;');
-        this.activeClass = utils.exceptNull(this, 'active');
+        this.activeClass = utils.exceptNull.call(this, 'active');
         this.options = this.getOption();
         this.value = this.elementSelect.dataset.value ? this.elementSelect.dataset.value : this.options[0].value;
-        this.index = utils.findIdx(this, this.value);
+        this.index = utils.findIdx.call(this, this.value);
         this.close();
         this.setIndex(this.index);
         this.event();
@@ -170,7 +170,7 @@ var Select = (function (Select) {
     }
 
     Select.prototype.update = function () {
-        this.elementOptionListItems = utils.selector(this.id, utils.exceptNull(this, 'optionListItem'));
+        this.elementOptionListItems = utils.selector(this.id, utils.exceptNull.call(this, 'optionListItem'));
         this.options = this.getOption();
         this.event();
     }
@@ -194,26 +194,26 @@ var Select = (function (Select) {
     }
 
     Select.prototype.event = function () {
-        utils.addEvent(this, this.elementSelectedList, utils.open);
-        utils.addEvent(this, this.elementOptionListItems, utils.select);
-        utils.addEvent(this, this.elementDim, utils.close);
+        utils.addEvent.call(this, this.elementSelectedList, utils.open.bind(this));
+        utils.addEvent.call(this, this.elementOptionListItems, utils.select.bind(this));
+        utils.addEvent.call(this, this.elementDim, utils.close.bind(this));
     }
 
     Select.prototype.setValue = function (value) {
-        var index = utils.findIdx(this, value);
-        utils.select(this, index);
+        var index = utils.findIdx.call(this, value);
+        utils.select.call(this, index);
     }
 
     Select.prototype.setIndex = function (index) {
-        utils.select(this, index);
+        utils.select.call(this, index);
     }
 
     Select.prototype.close = function () {
-        utils.close(this);
+        utils.close.call(this);
     }
 
     Select.prototype.open = function () {
-        utils.open(this)
+        utils.open.call(this)
     }
 
     return Select;
