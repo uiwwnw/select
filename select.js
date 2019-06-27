@@ -163,9 +163,8 @@ var Select = (function (Select) {
     Select.prototype.change = function (fn) {
         if (this.opt.change) {
             this.opt.change(this.get());
-        }
-        if (fn) {
-            fn(this.get());
+        } else if (fn) {
+            this.opt.change = fn
         }
     }
 
