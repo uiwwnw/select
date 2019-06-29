@@ -13,17 +13,22 @@ var Select = (function (Select) {
         visibleDesc: 'boolean',
         change: 'function'
     },
-        errorMsg = {
-            wrongType: function (params) {
-                return `This ${params} options's type is wrong.`
-            },
-            notDefined: function (params) {
-                return `This ${params} is not defined.`
-            },
-        };
+    errorMsg = {
+        wrongType: function (params) {
+            return `This ${params} options's type is wrong.`
+        },
+        notDefined: function (params) {
+            return `This ${params} is not defined.`
+        },
+    };
     var utils = (function () {
         function selector(id, selector) {
-            return document.querySelectorAll(`#${id} ${selector}`);
+            const result = document.querySelectorAll(`#${id} ${selector}`);
+            if(result.length === 1) {
+                return result[0];
+            } else {
+                return result;
+            }
         }
         function exceptNull(key) {
             return this.opt[key] ? `.${this.opt[key]}` : `.${key}`;
@@ -89,15 +94,14 @@ var Select = (function (Select) {
                         var index = utils.findIdx.call(_this, this.dataset.value);
                         fn(index);
                     }
-                    selector[i].addEventListener('click', _fn, false);
+                    selector[i].onclick =  _fn;
                 }
             } else {
                 function _fn() {
                     fn(fn);
                 }
-                selector.addEventListener('click', _fn, false);
+                selector.onclick = _fn;
             }
-
         }
 
         return {
@@ -142,13 +146,13 @@ var Select = (function (Select) {
         this.active = false;
         this.id = id;
         this.elementSelect = document.getElementById(id);
-        this.elementSelectedList = utils.selector(this.id, utils.exceptNull.call(this, this.opt.selectedList))[0];
+        this.elementSelectedList = utils.selector(this.id, utils.exceptNull.call(this, this.opt.selectedList));
 
-        (this.opt.visibleLabel) && (this.elementSelectedLabel = utils.selector(this.id, utils.exceptNull.call(this, this.opt.selectedLabel))[0]);
-        (this.opt.visibleValue) && (this.elementSelectedValue = utils.selector(this.id, utils.exceptNull.call(this, this.opt.selectedValue))[0]);
-        (this.opt.visibleImage) && (this.elementSelectedImage = utils.selector(this.id, utils.exceptNull.call(this, this.opt.selectedImage))[0]);
-        (this.opt.visibleDesc) && (this.elementSelectedDesc = utils.selector(this.id, utils.exceptNull.call(this, this.opt.selectedDesc))[0]);
-        this.elementOptionList = utils.selector(this.id, utils.exceptNull.call(this, this.opt.optionList))[0];
+        (this.opt.visibleLabel) && (this.elementSelectedLabel = utils.selector(this.id, utils.exceptNull.call(this, this.opt.selectedLabel)));
+        (this.opt.visibleValue) && (this.elementSelectedValue = utils.selector(this.id, utils.exceptNull.call(this, this.opt.selectedValue)));
+        (this.opt.visibleImage) && (this.elementSelectedImage = utils.selector(this.id, utils.exceptNull.call(this, this.opt.selectedImage)));
+        (this.opt.visibleDesc) && (this.elementSelectedDesc = utils.selector(this.id, utils.exceptNull.call(this, this.opt.selectedDesc)));
+        this.elementOptionList = utils.selector(this.id, utils.exceptNull.call(this, this.opt.optionList));
         this.elementOptionListItems = utils.selector(this.id, utils.exceptNull.call(this, this.opt.optionListItem));
         this.elementDim = utils.makeDom(this.elementSelect, 'i', 'z-index: 1;position: fixed;top: 0;left: 0;display:none;width: 100%;height: 100%;');
         this.activeClass = utils.exceptNull.call(this, 'active');
