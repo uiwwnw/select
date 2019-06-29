@@ -185,14 +185,19 @@ var Select = (function (Select) {
     Select.prototype.getOption = function () {
         var i = this.elementOptionListItems.length;
         this.options = this.options ? this.options : [];
-        while (i--) {
-            var option = {};
-            (this.elementOptionListItems[i].dataset.value) && (option.value = this.elementOptionListItems[i].dataset.value);
-            (this.elementOptionListItems[i].dataset.label) && (option.label = this.elementOptionListItems[i].dataset.label);
-            (this.elementOptionListItems[i].dataset.desc) && (option.desc = this.elementOptionListItems[i].dataset.desc);
-            (this.elementOptionListItems[i].dataset.image) && (option.image = this.elementOptionListItems[i].dataset.image);
-            this.options.unshift(option);
+        if(i !== this.options.length) {
+            var options = [];
+            while (i--) {
+                var option = {};
+                (this.elementOptionListItems[i].dataset.value) && (option.value = this.elementOptionListItems[i].dataset.value);
+                (this.elementOptionListItems[i].dataset.label) && (option.label = this.elementOptionListItems[i].dataset.label);
+                (this.elementOptionListItems[i].dataset.desc) && (option.desc = this.elementOptionListItems[i].dataset.desc);
+                (this.elementOptionListItems[i].dataset.image) && (option.image = this.elementOptionListItems[i].dataset.image);
+                options.unshift(option);
+            }
+            this.options = options;
         }
+        
         return this.options;
     }
 
